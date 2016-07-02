@@ -1,42 +1,24 @@
 import React from 'react';
 import GameCell from './components/GameCell';
 import _ from 'lodash';
-import {getWinnerIfExist} from './services';
+import {clickCell} from './actions';
 
 class Tateti extends React.Component {
 
   constructor(props){
     super(props);
     this.cellClicked = this.cellClicked.bind(this);
-    this.state = {
-      cells: [
-          {playedBy: '?'}, {playedBy: '?'}, {playedBy: '?'}, {playedBy: '?'}, {playedBy: '?'}, {playedBy: '?'},
-          {playedBy: '?'}, {playedBy: '?'}, {playedBy: '?'}
-      ],
-      currentPlayer: 'x',
-      winner: null
-    }
+    this.store = props.store;
+    this.state = this.store.getState();
+  }
+
+  componentWillMount() {
+    let store = this.store;
+    store.subscribe(() => this.setState(store.getState()));
   }
 
   cellClicked(position){
-    if (this.state.winner === null){
-      if(this.state.cells[position].playedBy !== '?'){
-        return;
-      }
-      var self = this;
-      var cells = this.state.cells.map(function(cell, idx){
-        if(idx === position){
-          cell.playedBy = self.state.currentPlayer
-        }
-        return cell;
-      });
-
-      this.setState({
-        cells: cells,
-        currentPlayer: (this.state.currentPlayer === 'x') ? 'o' : 'x',
-        winner: getWinnerIfExist(this.state.cells)
-      });
-    }
+    this.store.dispatch(clickCell(position));
   }
 
   render(){

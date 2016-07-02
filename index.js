@@ -1,8 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Tateti from './app/Tateti';
+import { createStore } from 'redux';
 
+import Tateti from './app/Tateti';
+import {gameReducer} from './app/reducers';
+
+let store = createStore(gameReducer);
 render(
-  <Tateti />,
+  <Tateti store={store}/>,
   document.getElementById('app')
 );
