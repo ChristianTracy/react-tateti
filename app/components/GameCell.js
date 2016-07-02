@@ -3,8 +3,9 @@ import React from 'react';
 class GameCell extends React.Component {
   constructor(props){
     super(props);
+    this.getClassName = this.getClassName.bind(this);
+    this.clickHandlrer = this.clickHandlrer.bind(this);
   }
-
 
   getClassName(){
     let player = this.props.player.playedBy;
@@ -26,9 +27,9 @@ class GameCell extends React.Component {
   render(){
     return (
       <div className="col-xs-4 game-cell">
-        <button className={'btn btn-' + this.getClassName.bind(this)()}
+        <button className={'btn btn-' + this.getClassName()}
         type="submit"
-        onClick={this.clickHandlrer.bind(this)}
+        onClick={this.clickHandlrer}
         >
           {this.props.player.playedBy}
         </button>
